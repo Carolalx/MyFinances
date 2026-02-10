@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flashes">
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Seção para atualizar dados do usuário -->
+    <div class="section">
+        <h2>Dados do Usuário</h2>
+        <form method="POST" action="{{ url_for('main.config') }}">
+            <label for="fullname">Nome Completo:</label>
+            <input type="text" id="fullname" name="fullname" value="{{ user.fullname }}" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="{{ user.email }}" required>
+
+            <button type="submit">Atualizar Dados</button>
+        </form>
+    </div>
+
+    <!-- Seção para alterar senha -->
+    <div class="section">
+        <h2>Alterar Senha</h2>
+        <form method="POST" action="{{ url_for('main.change_password') }}">
+            <label for="current_password">Senha Atual:</label>
+            <input type="password" id="current_password" name="current_password" required>
+
+            <label for="new_password">Nova Senha:</label>
+            <input type="password" id="new_password" name="new_password" required>
+
+            <label for="confirm_new_password">Confirmar Nova Senha:</label>
+            <input type="password" id="confirm_new_password" name="confirm_new_password" required>
+
+            <button type="submit">Alterar Senha</button>
+        </form>
+    </div>
+
+    <!-- Seção para contas existentes -->
+    <div class="section">
+        <h2>Contas Existentes</h2>
+        <ul>
+            {% for account in user.accounts %}
+                <li>{{ account.account_name }}</li>
+            {% else %}
+                <li>Nenhuma conta cadastrada</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Seção para cadastrar nova conta -->
+    <div class="section">
+        <h2>Cadastrar Nova Conta</h2>
+        <form method="POST" action="{{ url_for('main.add_account') }}">
+            <label for="account_name">Nome da Conta:</label>
+            <input type="text" id="account_name" name="account_name" required>
+
+            <button type="submit">Cadastrar Conta</button>
+        </form>
+    </div>
+
+    <a href="{{ url_for('main.dashboard') }}" class="btn-back">Voltar para o Dashboard</a>
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="icon" href="{{ url_for('static', filename='img/wallet.png') }}" type="image/png">
+</head>
+<body>
+    <div class="register-container">
+        <h2>Registro</h2>
+        <form action="{{ url_for('main.register') }}" method="post" autocomplete="on">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <label for="fullname">Nome Completo:</label>
+            <input type="text" id="fullname" name="fullname" required autocomplete="name">
+
+            <label for="username">Nome de Usuário:</label>
+            <input type="text" id="username" name="username" required autocomplete="username">
+            
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" name="email" required autocomplete="email">
+            
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" required autocomplete="new-password">
+            
+            <label for="confirm_password">Confirmar Senha:</label>
+            <input type="password" id="confirm_password" name="confirm_password" required autocomplete="new-password">
+            
+            <button type="submit">Registrar</button>
+        </form>
+        <div class="login-link">
+            <p>Já tem uma conta? <a href="{{ url_for('main.login') }}">Faça login aqui</a></p>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Carol A. Todos os direitos reservados. | Projeto Pessoal Controle_Finanças</p>
+    </footer>
+</body>
+</html>

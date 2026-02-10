@@ -1,0 +1,395 @@
+/* Estilo do corpo da página */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+    position: relative;
+    min-height: 100vh;
+    padding-bottom: 50px;
+    box-sizing: border-box;
+}
+
+/* Estilo do container principal */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* Estilo do cabeçalho */
+.header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #4caf50;
+    color: white;
+    padding: 10px;
+    border-radius: 8px 8px 0 0;
+    text-align: center;
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto 0;
+}
+
+.header h1 {
+    margin: 0;
+    text-align: center;
+    display: flex;
+    align-items: center;
+}
+
+.header img {
+    margin-right: 10px;
+}
+
+/* Navegação */
+.navigation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.nav-link {
+    color: white;
+    margin: 5px 0;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 10px 15px;
+}
+
+.nav-link:hover {
+    text-decoration: underline;
+}
+
+.dark-mode-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-size: 17px;
+    padding: 1px 1px;
+    text-decoration: none;
+    margin: 5px 0;
+    line-height: normal;
+}
+
+.dark-mode-toggle:hover {
+    text-decoration: underline;
+}
+
+/* FOOTER */
+.text-red-wine {
+    --tw-text-opacity: 1;
+    filter: hue-rotate(-20deg) saturate(150%);
+}
+
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(.4, 0, .6, 1) infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: .5;
+    }
+}
+
+.github-icon {
+    color: #9ae9b8;
+    /* cor normal */
+    transition: transform 0.2s;
+}
+
+.github-icon:hover {
+    color: #9ae9b8;
+    /* cor ao passar o mouse */
+    transform: scale(1.1);
+}
+
+.linkding-icon {
+    color: #9ae9b8;
+    /* cor normal */
+    transition: transform 0.2s;
+}
+
+.linkding-icon:hover {
+    color: #9ae9b8;
+    /* cor ao passar o mouse */
+    transform: scale(1.1);
+}
+
+
+/* Ajustes responsivos */
+@media (min-width: 600px) {
+    .header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .navigation {
+        flex-direction: row;
+        margin-top: 0;
+    }
+
+    .nav-link {
+        margin: 0 10px;
+    }
+
+    .dark-mode-toggle {
+        margin: 0 0px;
+    }
+}
+
+/* Estilo da seção */
+.section {
+    margin-bottom: 20px;
+}
+
+h2 {
+    margin-bottom: 10px;
+    color: #4caf50;
+}
+
+/* Estilo da tabela */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table,
+th,
+td {
+    border: 1px solid #ccc;
+}
+
+th,
+td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f4f4f4;
+}
+
+/* Estilo dos inputs, selects e botões */
+input,
+select,
+button {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.chart {
+    width: 80%;
+    /* Ou 800px, por exemplo */
+    max-width: 1200px;
+    /* Opcional: define um limite máximo */
+    height: 500px;
+    margin: 0 auto;
+    /* Agora vai centralizar */
+}
+
+/* Modo escuro */
+body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+.container.dark-mode {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+}
+
+.header.dark-mode {
+    background-color: #333;
+}
+
+.nav-link.dark-mode {
+    color: #e0e0e0;
+}
+
+button.dark-mode {
+    background-color: #333;
+    color: #e0e0e0;
+}
+
+button.dark-mode:hover {
+    background-color: #555;
+}
+
+input.dark-mode,
+select.dark-mode {
+    background-color: #333;
+    color: #e0e0e0;
+    border: 1px solid #555;
+}
+
+table.dark-mode,
+th.dark-mode,
+td.dark-mode {
+    background-color: #333;
+    color: #e0e0e0;
+    border: 1px solid #555;
+}
+
+footer.dark-mode {
+    background-color: #333;
+}
+
+footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: #4caf50;
+    color: white;
+    text-align: center;
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 0 0 8px 8px;
+}
+
+/* Estilos específicos para login e registro */
+.login-container,
+.register-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    margin: 50px auto;
+}
+
+.login-container h2,
+.register-container h2 {
+    margin: 0 0 20px;
+    text-align: center;
+}
+
+.login-container label,
+.register-container label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+.login-container input,
+.register-container input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.login-container button,
+.register-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.login-container button:hover,
+.register-container button:hover {
+    background-color: #0056b3;
+}
+
+.register-link,
+.login-link {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.register-link a,
+.login-link a {
+    color: #4caf50;
+    text-decoration: none;
+}
+
+.register-link a:hover,
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+/* Estilos específicos para mensagens flash */
+.flashes {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px auto;
+    max-width: 1200px;
+}
+
+.flash {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    font-size: 16px;
+    text-align: center;
+}
+
+.flash.info {
+    background-color: #d9edf7;
+    color: #31708f;
+}
+
+.flash.success {
+    background-color: #dff0d8;
+    color: #3c763d;
+}
+
+.flash.warning {
+    background-color: #fcf8e3;
+    color: #8a6d3b;
+}
+
+.flash.error {
+    background-color: #f2dede;
+    color: #a94442;
+}
+
+#calendar-container {
+    margin: 0px;
+}
+
+#calendar {
+    max-width: 1000px;
+    margin: 0 auto;
+}
