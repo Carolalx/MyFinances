@@ -21,10 +21,20 @@ DEFAULT_EXPENSE_TYPES = [
     'Cartão de Crédito',
     'Saneamento (Água/Esgoto)',
     'Energia Elétrica',
-    'Investimentos'
+    'Investimentos',
+    'Internet',
+    'Telefonia'
 ]
 
-DEFAULT_REVENUE_TYPES = ['Salário']
+DEFAULT_REVENUE_TYPES = [
+    'Salário',
+    '13º Salário',
+    '1/3 de férias',
+    'Bônus / Hora extra',
+    'Freelance',
+    'Renda de Aluguel',
+    'Renda de Investimentos'
+]
 
 
 # -------------------------------
@@ -196,8 +206,8 @@ def dashboard():
     # --- Geração do gráfico (somente tipos com despesas) ---
     expense_sums = {}
     for e in expenses:
-        type_name = e.transaction_type.name
-        expense_sums[type_name] = expense_sums.get(type_name, 0) + e.amount
+        name = e.transaction_type.name
+        expense_sums[name] = expense_sums.get(name, 0) + e.amount
 
     labels = list(expense_sums.keys()) + ['Saldo restante']
     data = list(expense_sums.values()) + \
@@ -297,6 +307,7 @@ def add_expense():
 
 @main.route('/add_revenue', methods=['POST'])
 def add_revenue():
+    print(request.form)
     user_id = session.get('user_id')
     if not user_id:
         return redirect(url_for('main.login'))
@@ -340,37 +351,114 @@ def add_revenue():
 
 @main.route('/transaction_management', methods=['GET', 'POST'])
 def transaction_management():
-    from .models import TransactionType
+    from .models import TransactionType, User
     user_id = session.get('user_id')
     if not user_id:
         flash('Por favor, faça login para acessar essa página.', 'warning')
         return redirect(url_for('main.login'))
 
+    # --- Inserir tipos padrão para todos os usuários, caso ainda não existam ---
+    DEFAULT_EXPENSE_TYPES = [
+        'Alimentação',
+        'Transporte/Combustível',
+        'Diversão/Lazer',
+        'Saúde',
+        'Moradia',
+        'Educação',
+        'Cartão de Crédito',
+        'Saneamento (Água/Esgoto)',
+        'Energia Elétrica',
+        'Investimentos',
+        'Internet',
+        'Telefonia'
+    ]
+
+    DEFAULT_REVENUE_TYPES = [
+        'Salário',
+        '13º Salário',
+        '1/3 de férias',
+        'Bônus / Hora extra',
+        'Freelance',
+        'Renda de Aluguel',
+        'Renda de Investimentos'
+    ]
+
+    # Atualizar tipos padrão para o usuário logado, sem duplicar
+    for name in DEFAULT_EXPENSE_TYPES:
+        if not TransactionType.query.filter_by(
+            name=name, user_id=user_id, transaction_category='expense'
+        ).first():
+            db.session.add(TransactionType(
+                name=name,
+                user_id=user_id,
+                transaction_category='expense'
+            ))
+
+    for name in DEFAULT_REVENUE_TYPES:
+        if not TransactionType.query.filter_by(
+            name=name, user_id=user_id, transaction_category='revenue'
+        ).first():
+            db.session.add(TransactionType(
+                name=name,
+                user_id=user_id,
+                transaction_category='revenue'
+            ))
+
+    db.session.commit()
+
+    # --- Processar envio do formulário ---
     if request.method == 'POST':
-        if 'expense_type' in request.form:
-            expense_type_name = request.form['expense_type']
-            if expense_type_name:
-                new_expense_type = TransactionType(
-                    type_name=expense_type_name, user_id=user_id, transaction_category='expense')
-                db.session.add(new_expense_type)
+        # Novo tipo de despesa
+        expense_name = request.form.get('expense_type', '').strip()
+        if expense_name:
+            exists = TransactionType.query.filter_by(
+                name=expense_name,
+                user_id=user_id,
+                transaction_category='expense'
+            ).first()
+            if not exists:
+                db.session.add(TransactionType(
+                    name=expense_name,
+                    user_id=user_id,
+                    transaction_category='expense'
+                ))
                 db.session.commit()
                 flash('Novo tipo de despesa adicionado com sucesso.', 'success')
+            else:
+                flash('Esse tipo de despesa já existe.', 'warning')
 
-        if 'revenue_type' in request.form:
-            revenue_type_name = request.form['revenue_type']
-            if revenue_type_name:
-                new_revenue_type = TransactionType(
-                    type_name=revenue_type_name, user_id=user_id, transaction_category='revenue')
-                db.session.add(new_revenue_type)
+        # Novo tipo de receita
+        revenue_name = request.form.get('revenue_type', '').strip()
+        if revenue_name:
+            exists = TransactionType.query.filter_by(
+                name=revenue_name,
+                user_id=user_id,
+                transaction_category='revenue'
+            ).first()
+            if not exists:
+                db.session.add(TransactionType(
+                    name=revenue_name,
+                    user_id=user_id,
+                    transaction_category='revenue'
+                ))
                 db.session.commit()
                 flash('Novo tipo de receita adicionado com sucesso.', 'success')
+            else:
+                flash('Esse tipo de receita já existe.', 'warning')
 
+    # --- Listar tipos existentes ---
     expense_types = TransactionType.query.filter_by(
-        user_id=user_id, transaction_category='expense').all()
+        user_id=user_id, transaction_category='expense'
+    ).all()
     revenue_types = TransactionType.query.filter_by(
-        user_id=user_id, transaction_category='revenue').all()
+        user_id=user_id, transaction_category='revenue'
+    ).all()
 
-    return render_template('transaction_management.html', expense_types=expense_types, revenue_types=revenue_types)
+    return render_template(
+        'transaction_management.html',
+        expense_types=expense_types,
+        revenue_types=revenue_types
+    )
 
 
 @main.route('/transaction_history')

@@ -35,9 +35,9 @@
             <label for="description">Descrição:</label>
             <input type="text" id="description" name="description" required>
             <label for="transaction_type_id">Tipo de Despesa:</label>
-            <select id="transaction_type_id" name="expense.transaction_type_id" required>
+            <select name="transaction_type_id" required>
                 {% for type in expense_types %}
-                    <option value="{{ type.id }}">{{ type.type_name }}</option>
+                    <option value="{{ type.id }}">{{ type.name }}</option>
                 {% endfor %}
             </select>
             <label for="account_id">Conta:</label>
@@ -67,9 +67,9 @@
             <label for="description">Descrição:</label>
             <input type="text" id="description" name="description" required>
             <label for="transaction_type_id">Tipo de Receita:</label>
-            <select id="transaction_type_id" name="revenue.transaction_type_id" required>
+            <select id="transaction_type_id" name="transaction_type_id" required>
                 {% for type in revenue_types %}
-                    <option value="{{ type.id }}">{{ type.type_name }}</option>
+                    <option value="{{ type.id }}">{{ type.name }}</option>
                 {% endfor %}
             </select>
             <label for="account_id">Conta:</label>

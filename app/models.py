@@ -5,6 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class User(db.Model):
+    __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -29,7 +30,7 @@ class Account(db.Model):
     __tablename__ = 'account'
     id = db.Column(db.Integer, primary_key=True)
     account_name = db.Column(db.String(100), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     revenues = db.relationship('Revenue', backref='account', lazy=True)
     expenses = db.relationship('Expense', backref='account', lazy=True)
 
@@ -40,7 +41,7 @@ class TransactionType(db.Model):
     name = db.Column(db.String(50), nullable=False)
     transaction_category = db.Column(
         db.String(20), nullable=False)  # 'revenue' ou 'expense'
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
     expenses = db.relationship(
         'Expense', backref='transaction_type', lazy=True)
@@ -56,10 +57,10 @@ class Expense(db.Model):
         db.Integer, db.ForeignKey('transaction_types.id'))
     account_id = db.Column(db.Integer, db.ForeignKey('account.id'))
     expense_date = db.Column(db.DateTime, default=db.func.current_timestamp())
-    description = db.Column(db.Text(50))  # adiciona o campo
+    description = db.Column(db.String(50))  # adiciona o campo
 
 
-class Revenue(db.Model):
+class Revenue (db.Model):
     __tablename__ = 'revenue'
     id = db.Column(db.Integer, primary_key=True)
     amount = db.Column(db.Float, nullable=False)
@@ -74,7 +75,7 @@ class Revenue(db.Model):
 class SavingGoal(db.Model):
     __tablename__ = 'saving_goals'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     goal_name = db.Column(db.String(100), nullable=False)
     target_amount = db.Column(db.Float, nullable=False)
     current_amount = db.Column(db.Float, nullable=False, default=0.00)
