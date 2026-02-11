@@ -481,9 +481,19 @@ def transaction_history():
 
     return render_template('transaction_history.html', expenses=expense_data, revenues=revenue_data)
 
+# TODO implementar página de simulação de investimentos
 
-@main.route('/add_saving_goal', methods=['POST'])
-def add_saving_goal():
+
+@main.route('/simulador_invest')
+def simulador_invest():
+    if 'user_id' not in session:
+        flash('Por favor, faça login para acessar essa página.', 'warning')
+        return redirect(url_for('main.login'))
+    return render_template('simulador_invest.html')
+
+
+@main.route('/saving_goal', methods=['POST'])
+def saving_goal():
     from .models import SavingGoal
     if 'user_id' not in session:
         flash('Por favor, faça login para adicionar uma meta de economia.', 'warning')

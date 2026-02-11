@@ -81,3 +81,20 @@ class SavingGoal(db.Model):
     current_amount = db.Column(db.Float, nullable=False, default=0.00)
     target_date = db.Column(db.DateTime, nullable=False)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(pytz.utc))
+
+# TODO implementar página de simulação de investimentos
+
+
+class Investment(db.Model):
+    __tablename__ = 'investments'
+    id = db.Column(db.Integer, primary_key=True)  # id do investimento
+    user_id = db.Column(db.Integer, db.ForeignKey(
+        'users.id'), nullable=False)  # id do usuário
+    starting_capital = db.Column(db.Float, nullable=False),  # Capital inicial
+    contribution = db.Column(db.Float, nullable=False)  # Aporte mensal
+    # Taxa anual aumento de aporte
+    contribution_tax = db.Column(db.Float, nullable=False, default=0.00)
+    annual_tax = db.Column(db.Float, nullable=False,
+                           default=0.00)  # Taxa de juros anual
+    target_time = db.Column(db.Float, nullable=False,
+                            default=0.00)  # Tempo investimento (anos)
