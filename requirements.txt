@@ -1,6 +1,6 @@
+SQLAlchemy==2.0.21
 Flask==2.3.2
 Flask-SQLAlchemy==3.0.5
-SQLAlchemy==2.0.17
 Werkzeug
 pytz
 gunicorn==21.2.0
