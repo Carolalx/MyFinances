@@ -1,11 +1,12 @@
 # 💰 Meu Financeiro
 
-![Python](https://img.shields.io/badge/Python-3.11-blue)
+![Python](https://img.shields.io/badge/Python-3.12-blue)
 ![Flask](https://img.shields.io/badge/Flask-2.3-green)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-blue)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 ![Status](https://img.shields.io/badge/Status-Em%20Desenvolvimento-orange)
 
-> Aplicativo web para **controle financeiro pessoal** com interface moderna, gráficos e suporte a múltiplas contas e moedas.
+> Aplicativo web para **controle financeiro pessoal** com interface moderna, gráficos e suporte a múltiplas contas.
 
 ---
 
@@ -24,9 +25,9 @@
 
 ## 🛠 Tecnologias
 
-| Backend       | Frontend          | Banco de Dados | Outros              |
-|---------------|-----------------|----------------|--------------------|
-| Python 3.11   | HTML, CSS, JS   | SQLite         | Flask, Bootstrap, Charts.js |
+| Backend     | Frontend      | Banco de Dados | Outros                      |
+|-------------|---------------|----------------|-----------------------------|
+| Python 3.12 | HTML, CSS, JS | PostgreSQL     | Flask, Bootstrap, Charts.js |
 
 ---
 
@@ -41,15 +42,20 @@
 
 ```
 Meu_Financeiro/
-├─ app/ # Código principal do Flask
-│ ├─ templates/ # Templates HTML
-│ ├─ static/ # CSS, JS e imagens
-│ ├─ models.py # Modelos do banco de dados
-│ └─ routes.py # Rotas do Flask
-├─ migrations/ # Migrações do banco de dados
-├─ run.py # Arquivo principal para rodar o app
-├─ requirements.txt # Dependências do projeto
-└─ README.md # Documentação
+├─ app/
+│ ├─ static/ 
+│ ├─ templates/ 
+│ ├─ config.py 
+│ ├─ models.py 
+│ ├─ routes.py 
+│ └─ utils.py
+├─ instances/
+│ └─ users.sql
+├─ migrations/ 
+├─ create_tables
+├─ run.py 
+├─ requirements
+└─ README.md 
 ```
 
 
