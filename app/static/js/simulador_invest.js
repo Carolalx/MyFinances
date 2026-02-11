@@ -46,4 +46,67 @@ form.addEventListener('submit', function (e) {
         rendaMensal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
     resultadoArea.style.display = 'block';
+
+    // Arrays para armazenar evolução ano a ano
+    let anos = [];
+    let montantes = [];
+
+    let montanteAno = starting_capital;
+    let aporteAno = contribution;
+
+    for (let i = 1; i <= target_time; i++) {
+        for (let m = 1; m <= 12; m++) {
+            montanteAno += aporteAno;
+        }
+        montanteAno *= (1 + annual_tax);
+        aporteAno *= (1 + contribution_tax);
+
+        // Armazena para o gráfico
+        anos.push(i);
+        montantes.push(montanteAno.toFixed(2));
+    }
+
+    // --- Criar o gráfico ---
+    let graficoInvestimentoCtx = document.getElementById('graficoInvestimento').getContext('2d');
+    if (meuGrafico) {
+        meuGrafico.destroy();
+    }
+    meuGrafico = new Chart(graficoInvestimentoCtx, {
+        type: 'line',
+        data: {
+            labels: anos,
+            datasets: [{
+                label: 'Montante ao longo do tempo (R$)',
+                data: montantes,
+                fill: true,
+                borderColor: '#4fa3f7',
+                backgroundColor: 'rgba(79,163,247,0.2)',
+                tension: 0.3
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    ticks: {
+                        callback: function (value) {
+                            return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                        }
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Ano'
+                    }
+                }
+            },
+            plugins: {
+                legend: { display: false }
+            }
+        }
+    });
+
 });
+
+let meuGrafico = null;
+

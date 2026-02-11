@@ -340,6 +340,21 @@ button:hover {
     /* espaço entre cada label na linha */
 }
 
+/* Por padrão (mobile) o gráfico ocupa 100% do container) */
+#graficoInvestimento {
+    width: 100% !important;
+    height: auto !important;
+}
+
+/* Em telas grandes (> 1200px), reduz o tamanho para 70% do container */
+@media (min-width: 1200px) {
+    #graficoInvestimento {
+        max-width: 40%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
 /* Modo escuro */
 body.dark-mode {
     background-color: #121212;

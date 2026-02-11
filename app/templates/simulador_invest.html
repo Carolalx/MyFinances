@@ -41,14 +41,16 @@
       <p>Montante Final: <strong id="montanteFinal"></strong></p>
       <p>Total de Juros: <strong id="totalJuros"></strong></p>
       <p>Renda Mensal Aproximada: <strong id="rendaMensal" style="color:#4fa3f7"></strong></p>
-      <p id="infoRenda" style="font-size:13px; color:rgba(230,238,241,0.7); margin-top:4px;">
-        O cálculo se baseia na taxa de 1%, desde que não fique nenhum mês sem investir.
-      </p>
+
+      <!-- Gráfico -->
+      <canvas id="graficoInvestimento" style="margin-top:20px; max-width:100%;"></canvas>
     </div>
+
   </section>
 </main>
 
-<!-- JS -->
-<script src="{{ url_for('static', filename='script.js') }}"></script>
-<script src="{{ url_for('static', filename='simulador_invest.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+<script src="{{ url_for('static', filename='js/simulador_invest.js') }}"></script>
+
 {% endblock %}
