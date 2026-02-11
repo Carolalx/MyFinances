@@ -209,7 +209,7 @@ def dashboard():
         name = e.transaction_type.name
         expense_sums[name] = expense_sums.get(name, 0) + e.amount
 
-    labels = list(expense_sums.keys()) + ['Saldo restante']
+    labels = list(expense_sums.keys())
     data = list(expense_sums.values()) + \
         [total_revenue - sum(expense_sums.values())]
 

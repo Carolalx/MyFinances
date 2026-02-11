@@ -12,7 +12,6 @@ if (chartElement) {
         // Tipo de gráfico: rosca
         type: 'doughnut',
         data: {
-            // Rótulos para os segmentos
             labels: labels,
             // Conjunto de dados para o gráfico
             datasets: [{
@@ -46,7 +45,7 @@ if (chartElement) {
             responsive: true,
             plugins: {
                 legend: {
-                    position: 'top',
+                    position: 'right',
                 },
                 // Configuração do título
                 title: {

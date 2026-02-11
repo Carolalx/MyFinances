@@ -306,14 +306,38 @@ button:hover {
     background-color: #5ab05d;
 }
 
-.chart {
-    width: 80%;
-    /* Ou 800px, por exemplo */
-    max-width: 1200px;
-    /* Opcional: define um limite máximo */
-    height: 500px;
-    margin: 0 auto;
-    /* Agora vai centralizar */
+.chart-container {
+    display: flex;
+    justify-content: center;
+    /* centraliza horizontalmente */
+    align-items: center;
+    /* centraliza verticalmente */
+    flex-direction: column;
+    margin-top: 30px;
+}
+
+.chart-wrapper {
+    display: flex;
+    align-items: flex-start;
+    /* canvas e lista lado a lado */
+    gap: 50px;
+    /* espaço entre gráfico e lista */
+}
+
+.chart-labels {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    /* espaço entre linhas de 3 labels */
+}
+
+.chart-labels .label-group {
+    display: flex;
+    gap: 15px;
+    /* espaço entre cada label na linha */
 }
 
 /* Modo escuro */
@@ -328,6 +352,11 @@ head.dark-mode {
 
 .negative {
     color: red;
+    font-weight: bold;
+}
+
+.positive {
+    color: blue;
     font-weight: bold;
 }
 
