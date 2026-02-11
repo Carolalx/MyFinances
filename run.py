@@ -1,4 +1,3 @@
-import monkey_patch_sqlalchemy
 from app import create_app
 
 app = create_app()
