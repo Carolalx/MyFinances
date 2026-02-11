@@ -10,11 +10,15 @@ def create_app():
     app.config.from_object(Config)
     db.init_app(app)
 
+    # ✅ REGISTRA O FILTRO AQUI
+    from .utils import format_brl
+    app.add_template_filter(format_brl, 'brl')
+
     # Importa e registra o blueprint
     from .routes import main
     app.register_blueprint(main)
 
     with app.app_context():
-        db.create_all()  # Cria tabelas se não existirem
+        db.create_all()
 
     return app
