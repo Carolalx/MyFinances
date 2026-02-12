@@ -535,14 +535,14 @@ def api_events():
 
     for expense in expenses:
         events.append({
-            'title': f"Despesa: {expense.amount}",
+            'title': f"R$ {expense.amount} ({expense.description[:10]}...)",
             'start': expense.expense_date.strftime('%Y-%m-%d'),
             'color': 'red'
         })
 
     for revenue in revenues:
         events.append({
-            'title': f"Receita: {revenue.amount}",
+            'title': f"R$ {revenue.amount} ({revenue.description[:10]}...)",
             'start': revenue.revenue_date.strftime('%Y-%m-%d'),
             'color': 'green'
         })

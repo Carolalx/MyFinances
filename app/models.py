@@ -82,8 +82,6 @@ class SavingGoal(db.Model):
     target_date = db.Column(db.DateTime, nullable=False)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(pytz.utc))
 
-# TODO implementar página de simulação de investimentos
-
 
 class Investment(db.Model):
     __tablename__ = 'investments'
