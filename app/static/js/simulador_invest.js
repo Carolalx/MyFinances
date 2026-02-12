@@ -20,7 +20,7 @@ form.addEventListener('submit', function (e) {
     let totalAportes = starting_capital;
     let aporteAtual = contribution;
 
-    // Calcula mês a mês
+    // Calcula mês a mês para o resultado final
     for (let i = 1; i <= target_time; i++) {
         for (let m = 1; m <= 12; m++) {
             montanteFinal += aporteAtual;
@@ -47,10 +47,9 @@ form.addEventListener('submit', function (e) {
 
     resultadoArea.style.display = 'block';
 
-    // Arrays para armazenar evolução ano a ano
+    // Arrays para armazenar evolução ano a ano para o gráfico
     let anos = [];
     let montantes = [];
-
     let montanteAno = starting_capital;
     let aporteAno = contribution;
 
@@ -61,7 +60,6 @@ form.addEventListener('submit', function (e) {
         montanteAno *= (1 + annual_tax);
         aporteAno *= (1 + contribution_tax);
 
-        // Armazena para o gráfico
         anos.push(i);
         montantes.push(montanteAno.toFixed(2));
     }
@@ -106,7 +104,41 @@ form.addEventListener('submit', function (e) {
         }
     });
 
+    // --- Preencher tabela mês a mês ---
+    const tabelaBody = document.querySelector('#tabelaEvolucao tbody');
+    tabelaBody.innerHTML = ''; // limpa tabela antiga
+
+    let aporteMesAtual = contribution;
+    let montanteMesAtual = starting_capital;
+    let mesNumero = 1;
+
+    for (let i = 1; i <= target_time; i++) { // para cada ano
+        for (let m = 1; m <= 12; m++) { // para cada mês
+            // Adiciona aporte mensal
+            montanteMesAtual += aporteMesAtual;
+
+            // Calcula renda mensal (1%)
+            const rendaMensalMes = montanteMesAtual * 0.01;
+
+            // Cria linha da tabela
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${mesNumero}</td>
+                <td>${montanteMesAtual.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                <td>${aporteMesAtual.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                <td>${rendaMensalMes.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+            `;
+            tabelaBody.appendChild(tr);
+
+            mesNumero++;
+        }
+
+        // Aplica juros anuais no final do ano
+        montanteMesAtual *= (1 + annual_tax);
+
+        // Aumenta aporte anual conforme a taxa
+        aporteMesAtual *= (1 + contribution_tax);
+    }
 });
 
 let meuGrafico = null;
-

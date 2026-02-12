@@ -70,11 +70,8 @@ body {
 .navigation {
     display: none;
     flex-direction: column;
-    /* empilhar links */
     width: 100%;
-    /* ocupar toda a largura */
     gap: 10px;
-    /* espaçamento entre links */
     margin-top: 10px;
 }
 
@@ -82,12 +79,10 @@ body {
     display: flex;
 }
 
-
 /* DESKTOP */
 @media (min-width: 768px) {
     .navigation {
         display: flex !important;
-        /* garante exibição */
         flex-direction: row;
         justify-content: center;
         align-items: center;
@@ -96,7 +91,6 @@ body {
         width: auto;
     }
 
-    /* esconder o botão no desktop */
     .menu-toggle {
         display: none;
     }
@@ -109,7 +103,6 @@ body {
     padding: 5px 0;
 }
 
-/* cria a linha, inicialmente escondida */
 .nav-link::after {
     content: "";
     position: absolute;
@@ -121,11 +114,9 @@ body {
     transition: width 0.3s ease;
 }
 
-/* hover: a linha cresce sem alterar texto */
 .nav-link:hover::after {
     width: 100%;
 }
-
 
 /* CONFIG ENGRANAGEM */
 .icon-btn {
@@ -136,7 +127,6 @@ body {
     transition: transform 0.2s ease;
 }
 
-
 .icon-btn:hover {
     transform: rotate(90deg);
 }
@@ -144,7 +134,6 @@ body {
 /* CONFIG MEIA LUA */
 .theme-toggle {
     font-size: 24px;
-    /* aumenta o tamanho base do ícone */
     background: none;
     border: none;
     outline: none;
@@ -152,16 +141,12 @@ body {
     border-radius: 0;
     color: white;
     cursor: pointer;
-
-    /* Transição suave para transformações */
     transition: transform 0.2s ease;
 }
 
 .theme-toggle:hover {
     transform: rotate(90deg) scale(1.1);
-    /* gira 180° e aumenta 30% */
 }
-
 
 .dark-mode-toggle {
     background: none;
@@ -201,30 +186,16 @@ body {
     }
 }
 
-.github-icon {
-    color: white;
-    /* cor normal */
-    transition: transform 0.2s;
-}
-
-.github-icon:hover {
-    color: white;
-    /* cor ao passar o mouse */
-    transform: scale(1.1);
-}
-
+.github-icon,
 .linkding-icon {
     color: white;
-    /* cor normal */
     transition: transform 0.2s;
 }
 
+.github-icon:hover,
 .linkding-icon:hover {
-    color: white;
-    /* cor ao passar o mouse */
     transform: scale(1.1);
 }
-
 
 /* Ajustes responsivos */
 @media (min-width: 600px) {
@@ -255,31 +226,68 @@ h2 {
     color: #4caf50;
 }
 
-/* Estilo da tabela */
+/* =====================
+   TABELAS RESPONSIVAS CORRIGIDAS
+===================== */
+
+/* Contêiner da tabela: rolagem horizontal em telas pequenas */
+.table-container,
 .table-wrapper {
+    width: 100%;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-top: 20px;
 }
 
+/* Tabela responsiva */
+.responsive-table,
 table {
-    min-width: 600px;
-    margin: auto;
+    width: 100%;
+    max-width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;
+    /* ajusta colunas ao conteúdo */
 }
 
-
-table,
-th,
-td {
-    border: 1px solid #ccc;
+/* Cabeçalho e células */
+.responsive-table th,
+.responsive-table td,
+table th,
+table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+    word-break: break-word;
+    white-space: normal;
 }
 
-th,
-td {
-    padding: 10px;
-    text-align: left;
-}
-
-th {
+.responsive-table th,
+table th {
     background-color: #f4f4f4;
+}
+
+/* Dark mode para tabela */
+body.dark-mode .responsive-table,
+body.dark-mode .responsive-table th,
+body.dark-mode .responsive-table td,
+body.dark-mode table,
+body.dark-mode table th,
+body.dark-mode table td {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    border: 1px solid #555;
+}
+
+/* Fonte menor em telas pequenas */
+@media (max-width: 600px) {
+
+    .responsive-table th,
+    .responsive-table td,
+    table th,
+    table td {
+        padding: 6px;
+        font-size: 14px;
+    }
 }
 
 /* Estilo dos inputs, selects e botões */
@@ -309,9 +317,7 @@ button:hover {
 .chart-container {
     display: flex;
     justify-content: center;
-    /* centraliza horizontalmente */
     align-items: center;
-    /* centraliza verticalmente */
     flex-direction: column;
     margin-top: 30px;
 }
@@ -319,9 +325,7 @@ button:hover {
 .chart-wrapper {
     display: flex;
     align-items: flex-start;
-    /* canvas e lista lado a lado */
     gap: 50px;
-    /* espaço entre gráfico e lista */
 }
 
 .chart-labels {
@@ -331,22 +335,18 @@ button:hover {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    /* espaço entre linhas de 3 labels */
 }
 
 .chart-labels .label-group {
     display: flex;
     gap: 15px;
-    /* espaço entre cada label na linha */
 }
 
-/* Por padrão (mobile) o gráfico ocupa 100% do container) */
 #graficoInvestimento {
     width: 100% !important;
     height: auto !important;
 }
 
-/* Em telas grandes (> 1200px), reduz o tamanho para 70% do container */
 @media (min-width: 1200px) {
     #graficoInvestimento {
         max-width: 40%;
@@ -359,20 +359,6 @@ button:hover {
 body.dark-mode {
     background-color: #121212;
     color: #e0e0e0;
-}
-
-head.dark-mode {
-    background-color: #333;
-}
-
-.negative {
-    color: red;
-    font-weight: bold;
-}
-
-.positive {
-    color: blue;
-    font-weight: bold;
 }
 
 .container.dark-mode {
@@ -404,14 +390,6 @@ select.dark-mode {
     border: 1px solid #555;
 }
 
-table.dark-mode,
-th.dark-mode,
-td.dark-mode {
-    background-color: #333;
-    color: #e0e0e0;
-    border: 1px solid #555;
-}
-
 footer.dark-mode {
     background-color: #333;
 }
@@ -430,6 +408,9 @@ footer {
     padding: 5px 20px;
     border-radius: 0 0 8px 8px;
 }
+
+/* Demais estilos mantidos... */
+
 
 .copyright {
     text-align: center;
