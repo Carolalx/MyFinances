@@ -226,6 +226,17 @@ h2 {
     color: #4caf50;
 }
 
+.negative {
+    color: red;
+    font-weight: bold;
+}
+
+.positive {
+    color: blue;
+    font-weight: bold;
+}
+
+
 /* =====================
    TABELAS RESPONSIVAS CORRIGIDAS
 ===================== */

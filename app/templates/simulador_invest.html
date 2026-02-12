@@ -7,28 +7,63 @@
 
     <form id="simuladorForm" class="form-body" autocomplete="off">
       <div class="input-group">
-        <label for="starting_capital">Capital Inicial (R$) -- Quanto você tem investido, reservado ou guardado hoje.</label>
+        <h3 class="input-help">Valor que você tem investido ou com quanto quer começar?</h3>
+        <label for="starting_capital">Capital Inicial:</label>
         <input id="starting_capital" type="number" min="0" step="0.01" required>
+        <br>
+        <br>
+        <br>
+        <hr> <!-- linha separadora -->   
       </div>
 
       <div class="input-group">
-        <label for="contribution">Aporte Mensal (R$) -- Quanto você quer aplicar mensalmente.</label>
+        <br>
+        <br>
+        <br>
+        <h3 class="input-help">Quanto você pretende investir mensalmente?</h3>        
+        <label for="contribution">Aporte Mensal:</label>
         <input id="contribution" type="number" min="0" step="0.01" required>
+        <br>
+        <br>
+        <br>
+        <hr> <!-- linha separadora -->          
       </div>
 
       <div class="input-group">
-        <label for="contribution_tax">Taxa Anual de Aumento do Aporte (%) -- Se quiser aumentar seu aporte a cada 12 meses.</label>
+        <br>
+        <br>
+        <br>
+        <h3 class="input-help">A cada 12 meses você quer aumentar seu aporte mensal em quantos por cento?</h3>   
+        <label for="contribution_tax">Taxa Anual de Aumento do Aporte (%) </label>
+        <p class="input-help">Exemplo: caso comece com 100,00 todo mes e queira aumentar 10% informe 10 ->
+        ano 1: 100,00; ano 2: 110,00; ano 3: 121,00; e assim por diante (...)
+        Veja a tabela de evolução para entender melhor como funciona o aumento do aporte mensal.</p>
         <input id="contribution_tax" type="number" step="0.01" value="0">
+        <p class="input-help">Se não quiser aumentar o aporte, deixe 0</p>
+        <br>
+        <br>
+        <br>
+        <hr> <!-- linha separadora -->          
       </div>
-
+      
       <div class="input-group">
+        <br>
+        <br>
+        <br>
         <label for="taxaJuros">Taxa de Juros Anual (%) -- Se não souber, informe 15 (padrão SELIC atual)</label>
         <input id="taxaJuros" type="number" step="0.01" required>
+        <br>
+        <br>
+        <br>
+        <hr> <!-- linha separadora -->   
       </div>
 
       <div class="input-group">
+        <br>
+        <br>
+        <br>
         <label for="periodo">Período de Investimento (Anos)</label>
-        <input id="periodo" type="number" min="1" step="1" required>
+        <input id="periodo" type="number" min="1" step="1" required>     
       </div>
 
       <button class="primary" type="submit">

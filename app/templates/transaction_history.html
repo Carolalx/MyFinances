@@ -9,22 +9,16 @@
         <div class="table-wrapper">
             <table>
                 <tr>
-                    <th>ID</th>
                     <th>Descrição</th>
                     <th>Valor</th>
                     <th>Tipo</th>
-                    <th>Conta</th>
-                    <th>Data</th>
                     <th>Ações</th>
                 </tr>
                 {% for expense_data in expenses %}
                 <tr>
-                    <td>{{ expense_data['expense'].id }}</td>
                     <td>{{ expense_data['expense'].description }}</td>
                     <td>{{ expense_data['expense'].amount }}</td>
                     <td>{{ expense_data['transaction_type'].name }}</td>
-                    <td>{{ expense_data['account'].account_name }}</td>
-                    <td>{{ expense_data['expense'].expense_date.strftime('%d/%m/%Y') }}</td>
                     <td>
                         <a href="{{ url_for('main.delete_expense', id=expense_data['expense'].id) }}">Excluir</a>
                     </td>
@@ -40,22 +34,16 @@
         <h2>Histórico de Receitas</h2>
         <table>
             <tr>
-                <th>ID</th>
                 <th>Descrição</th>
                 <th>Valor</th>
                 <th>Tipo</th>
-                <th>Conta</th>
-                <th>Data</th>
                 <th>Ações</th>
             </tr>
         {% for data in revenues %}
         <tr>
-            <td>{{ data['revenue'].id }}</td>
             <td>{{ data['revenue'].description }}</td>
             <td>{{ data['revenue'].amount }}</td>
             <td>{{ data['transaction_type'].name }}</td>
-            <td>{{ data['account'].account_name }}</td>
-            <td>{{ data['revenue'].revenue_date.strftime('%d/%m/%Y') }}</td>
             <td>
                 <a href="{{ url_for('main.delete_revenue', id=data['revenue'].id) }}">Excluir</a>
             </td>
