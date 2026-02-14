@@ -3,76 +3,87 @@
 {% block content %}
 
 <div class="container">
+
+   <!-- NAVBAR (certifique-se que esses IDs existam no seu base.html também) -->
+   <!-- Exemplo esperado no base.html:
+   <a id="nav-dashboard" href="#">Dashboard</a>
+   <a id="nav-categories" href="#">Categorias</a>
+   <a id="nav-accounts" href="#">Contas</a>
+   <a id="nav-logout" href="#">Sair</a>
+   -->
+
    <!-- Seção para cadastrar despesas -->
-    <div class="section">
+    <div class="section" id="expense-section">
         <h2>Cadastro de Despesas</h2>
         <form action="{{ url_for('main.add_expense') }}" method="post">
-            <label for="amount">Valor:</label>
-            <input type="number" step="0.01" id="amount" name="amount" required>
-            <label for="description">Descrição:</label>
-            <input type="text" id="description" name="description" required>
-            <label for="transaction_type_id">Tipo de Despesa:</label>
+            <label>Valor:</label>
+            <input type="number" step="0.01" name="amount" required>
+
+            <label>Descrição:</label>
+            <input type="text" name="description" required>
+
+            <label>Tipo de Despesa:</label>
             <select name="transaction_type_id" required>
                 {% for type in expense_types %}
                     <option value="{{ type.id }}">{{ type.name }}</option>
                 {% endfor %}
             </select>
-            <label for="account_id">Conta:</label>
-            <select id="account_id" name="account_id" required>
+
+            <label>Conta:</label>
+            <select name="account_id" required>
                 {% for account in accounts %}
                     <option value="{{ account.id }}">{{ account.account_name }}</option>
                 {% endfor %}
             </select>
-            <label for="date">Data:</label>
-            <input type="date" id="date" name="date" required>
-            <!-- Seleção de moeda, caso queira implementar suporte a múltiplas moedas no futuro
-            <label for="currency">Moeda:</label>
-            <select id="currency" name="currency" required>
-                <option value="BRL">BRL</option>
-                <option value="USD">USD</option>
-                <option value="EUR">EUR</option>
-            </select>
-            -->
-            <button class="btn" type="submit">Adicionar Despesa</button>
+
+            <label>Data:</label>
+            <input type="date" name="date" required>
+
+            <button class="btn" type="submit" id="btn-add-expense">
+                Adicionar Despesa
+            </button>
         </form>
     </div>
-<hr> <!-- linha separadora -->
+
+<hr>
+
     <!-- Seção para cadastrar receitas -->
-    <div class="section">
+    <div class="section" id="revenue-section">
         <h2>Cadastro de Receitas</h2>
         <form action="{{ url_for('main.add_revenue') }}" method="post">
-            <label for="amount">Valor:</label>
-            <input type="number" step="0.01" id="amount" name="amount" required>
-            <label for="description">Descrição:</label>
-            <input type="text" id="description" name="description" required>
-            <label for="transaction_type_id">Tipo de Receita:</label>
-            <select id="transaction_type_id" name="transaction_type_id" required>
+            <label>Valor:</label>
+            <input type="number" step="0.01" name="amount" required>
+
+            <label>Descrição:</label>
+            <input type="text" name="description" required>
+
+            <label>Tipo de Receita:</label>
+            <select name="transaction_type_id" required>
                 {% for type in revenue_types %}
                     <option value="{{ type.id }}">{{ type.name }}</option>
                 {% endfor %}
             </select>
-            <label for="account_id">Conta:</label>
-            <select id="account_id" name="account_id" required>
+
+            <label>Conta:</label>
+            <select name="account_id" required>
                 {% for account in accounts %}
                     <option value="{{ account.id }}">{{ account.account_name }}</option>
                 {% endfor %}
             </select>
-            <label for="date">Data:</label>
-            <input type="date" id="revenue_date" name="date" required>
-            <!-- Seleção de moeda, caso queira implementar suporte a múltiplas moedas no futuro
-            <label for="currency">Moeda:</label>
 
-            <select id="currency" name="currency" required>
-                <option value="BRL">BRL</option>
-                <option value="USD">USD</option>
-                <option value="EUR">EUR</option>
-            </select>
-            -->
-            <button class="btn" type="submit">Adicionar Receita</button>
+            <label>Data:</label>
+            <input type="date" name="date" required>
+
+            <button class="btn" type="submit" id="btn-add-revenue">
+                Adicionar Receita
+            </button>
         </form>
-<hr> <!-- linha separadora -->        
-            <!-- Seção para exibir o valor geral da carteira -->
-    <div class="section">
+    </div>
+
+<hr>
+
+    <!-- Carteira -->
+    <div class="section" id="wallet-section">
         <h2>Valor Geral da Carteira</h2>
         <p><strong>Receita Total:</strong> {{ total_revenue|brl }}</p>
         <p><strong>Total de Despesas:</strong> {{ total_expense|brl }}</p>
@@ -82,24 +93,21 @@
                 {{ balance|brl }}
             </span>
         </p>
-
-
     </div>
-    
-    <!-- Seção para exibir o gráfico de despesas e receitas -->
-<div class="chart-container">
-    <div class="chart-wrapper">
-        <!-- Gráfico -->
-        <canvas id="expenseRevenueChart"></canvas>
+
+    <!-- Gráfico -->
+    <div class="chart-container" id="chart-section">
+        <div class="chart-wrapper">
+            <canvas id="expenseRevenueChart"></canvas>
+        </div>
     </div>
+
 </div>
 
-
-<!-- Script para o Chart.js -->
+<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<!-- Script para renderizar os dados no HTML -->
+
 <script>
-    // Renderizando os dados no script embutido no HTML
     var labels = JSON.parse('{{ labels_json|safe }}');
     var data = JSON.parse('{{ data_json|safe }}');
 </script>

@@ -130,6 +130,22 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
+    const startTourBtn = document.getElementById('startTourBtn');
+
+    startTourBtn.addEventListener('click', function () {
+        introJs().setOptions({
+            nextLabel: 'Próximo',
+            prevLabel: 'Anterior',
+            skipLabel: 'Pular',
+            doneLabel: 'Concluído',
+            showProgress: true,
+            showBullets: true,
+        }).start();
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
     if (!calendarEl) return;
 
@@ -166,3 +182,86 @@ document.addEventListener('DOMContentLoaded', function () {
     calendar.render();
 });
 
+
+document.addEventListener('DOMContentLoaded', function () {
+    function startTour() {
+
+        const tour = introJs();
+
+        tour.setOptions({
+            nextLabel: 'Próximo',
+            prevLabel: 'Voltar',
+            doneLabel: 'Concluir',
+            skipLabel: 'Pular',
+            showProgress: true,
+            scrollToElement: true,
+            scrollPadding: 80,
+            exitOnOverlayClick: false,
+            disableInteraction: false,
+            showBullets: false,
+            steps: [
+
+                {
+                    title: "👋 Bem-vindo ao MyFinances",
+                    intro: "Vou te mostrar rapidinho como organizar sua vida financeira de forma simples e inteligente."
+                },
+
+                {
+                    element: document.querySelector('#nav-dashboard'),
+                    title: "📊 Dashboard",
+                    intro: "Aqui você acompanha sua visão geral financeira."
+                },
+
+                {
+                    element: document.querySelector('#expense-section'),
+                    title: "💸 Cadastro de Despesas",
+                    intro: "Registre aqui TODOS os seus gastos. Até o cafézinho hein! Caso não exista o tipo de despesa que deseja, cadastre em Tipos de Transações."
+                },
+
+                {
+                    element: document.querySelector('#revenue-section'),
+                    title: "💰 Cadastro de Receitas",
+                    intro: "Adicione suas entradas de dinheiro. Caso não exista o tipo de receita que deseja, cadastre em Tipos de Transações."
+                },
+
+                {
+                    element: document.querySelector('#wallet-section'),
+                    title: "📈 Resumo Financeiro",
+                    intro: "Veja seu saldo total e acompanhe sua evolução. Simule corte nos gasto clicando no tipo de despesa na legenda."
+                },
+
+                {
+                    element: document.querySelector('#chart-section'),
+                    title: "📊 Visualização Gráfica",
+                    intro: "Analise seus dados com gráficos interativos."
+                },
+
+                {
+                    element: document.querySelector('#nav-logout'),
+                    title: "🚪 Encerrar Sessão",
+                    intro: "Passeie, Simule, Apague e refaça quantas vezes quiser. Veja onde seu dinheiro está indo e tome decisões. Boa jornada!"
+                }
+
+            ]
+        });
+
+        // Scroll suave manual (fica muito mais elegante)
+        tour.onbeforechange(function(targetElement) {
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+            }
+        });
+
+        tour.start();
+    }
+
+    // MODO TESTE — sempre inicia
+    window.addEventListener("load", function() {
+        setTimeout(() => {
+            startTour();
+        }, 500);
+    });
+});

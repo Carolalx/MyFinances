@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='img/wallet.png') }}" type="image/png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.2/main.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/intro.js/minified/introjs.min.css">
+
 </head>
   <div class="header">
       <h1>
@@ -59,6 +61,7 @@
           nav.classList.toggle("active");
       });
     </script>
+    <script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
 </body>
 
   <footer class="bg-white border-t py-1">
@@ -90,4 +93,15 @@
   </footer>
 
 <p class="copyright">&copy; 2026 Todos os direitos reservados.</p>
+
+<style>
+.introjs-tooltip {
+    border-radius: 12px;
+    font-size: 14px;
+}
+.introjs-button {
+    border-radius: 8px;
+}
+</style>
+
 </html>
