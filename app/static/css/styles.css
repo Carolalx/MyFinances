@@ -64,6 +64,15 @@ body {
     display: block;
 }
 
+/* Risca eventos com classe .riscado */
+.fc-event.riscado .fc-event-title {
+    text-decoration: line-through;
+    opacity: 0.5;
+    color: #555 !important;
+}
+
+
+
 
 /* Navegação */
 /* MOBILE (padrão) */
@@ -361,45 +370,40 @@ button:hover {
 @media (min-width: 768px) {
     .chart-container {
         flex-direction: row;
-        /* gráfico e labels lado a lado */
-        gap: 50px;
+        gap: 20px;
+        /* reduz o espaço entre gráfico e labels */
+        align-items: center;
+        /* centraliza verticalmente */
         margin-top: 10px;
     }
 
     .chart-wrapper {
-        width: 50%;
+        width: 60%;
+        /* dá mais espaço pro gráfico */
         max-width: 600px;
         height: 500px;
-        /* altura maior só no desktop */
     }
 
     .chart-labels {
         flex-direction: column;
-        justify-content: center;
-        height: 500px;
-        /* igual à altura do gráfico */
-        font-size: 1.8rem;
-        gap: 20px;
+        justify-content: flex-start;
+        /* começa do topo, mais próximo do gráfico */
+        height: auto;
+        /* deixa a altura automática */
+        font-size: 1.5rem;
+        /* diminui um pouco para caber melhor */
+        gap: 10px;
+        /* espaçamento menor entre labels */
     }
 }
 
-
-.chart-wrapper {
-    position: relative;
-    width: 100%;
-    /* ocupa toda a largura disponível */
-    height: 400px;
-    /* altura inicial, ajustável */
-    max-width: 100%;
-    margin: auto;
-}
-
+/* Mobile */
 @media (max-width: 768px) {
     .chart-wrapper {
         height: 300px;
-        /* altura menor em telas pequenas */
     }
 }
+
 
 
 /* Modo escuro */

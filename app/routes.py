@@ -594,7 +594,8 @@ def api_events():
         events.append({
             'title': f"{goal.goal_name} ({goal.current_amount:.2f}/{goal.target_amount:.2f})",
             'start': goal.target_date.strftime('%Y-%m-%d'),
-            'color': 'blue'  # cor diferente para metas
+            'color': 'blue',  # cor diferente para metas
+            'completed': goal.completed  # campo extra para indicar se a meta foi concluída
         })
 
     return jsonify(events)

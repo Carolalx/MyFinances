@@ -90,20 +90,7 @@
 <div class="chart-container">
     <div class="chart-wrapper">
         <!-- Gráfico -->
-        <canvas id="expenseRevenueChart" width="200" height="200"></canvas>
-
-        <!-- Lista lateral de labels, 3 por linha -->
-        <ul class="chart-labels">
-            {% for i in range(labels_side|length) %}
-                {% if loop.index0 % 3 == 0 %}
-                    <li class="label-group">
-                {% endif %}
-                        <span>{{ labels_side[i] }}</span>
-                {% if loop.index0 % 3 == 2 or loop.last %}
-                    </li>
-                {% endif %}
-            {% endfor %}
-        </ul>
+        <canvas id="expenseRevenueChart"></canvas>
     </div>
 </div>
 

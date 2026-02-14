@@ -131,33 +131,38 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
+    if (!calendarEl) return;
 
-    if (calendarEl) {
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            events: '/api/events',  // rota que criamos
-            height: 'auto',
-            contentHeight: 'auto',
-            eventDidMount: function (info) {
-                // opcional: tooltip mostrando valor alvo e atual
-                info.el.setAttribute('title', info.event.title);
+    // Recupera estado riscado do localStorage
+    let crossedEvents = JSON.parse(localStorage.getItem('crossedEvents') || '{}');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        events: '/api/events',
+        height: 'auto',
+
+        // Renderizar título com riscado se estiver marcado
+        eventContent: function (info) {
+            let id = info.event.id || info.event.startStr + info.event.title; // fallback se não tiver id
+            let title = info.event.title;
+
+            if (crossedEvents[id]) {
+                title = `<span style="text-decoration: line-through; opacity:0.5;">${title}</span>`;
             }
-        });
-        calendar.render();
-    }
+            return { html: title };
+        },
+
+        // Clicar para riscar/desriscar despesas
+        eventClick: function (info) {
+            if (info.event.backgroundColor === 'red') { // apenas despesas
+                let id = info.event.id || info.event.startStr + info.event.title;
+                crossedEvents[id] = !crossedEvents[id]; // alterna
+                localStorage.setItem('crossedEvents', JSON.stringify(crossedEvents));
+                info.event.setProp('title', info.event.title); // força re-render
+            }
+        }
+    });
+
+    calendar.render();
 });
 
-
-document.addEventListener('DOMContentLoaded', function () {
-    var calendarEl = document.getElementById('calendar');
-
-    if (calendarEl) {
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            events: '/api/events',
-            height: 'auto',
-            contentHeight: 'auto',
-        });
-        calendar.render();
-    }
-});
