@@ -1,5 +1,3 @@
-import locale
-
-
-def format_brl(value):
-    return locale.currency(value, grouping=True)
+# utils.py
+def price_format(val):
+    return f'R$ {val:,.2f}'.replace(",", "X").replace(".", ",").replace("X", ".")

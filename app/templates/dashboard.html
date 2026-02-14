@@ -25,12 +25,14 @@
             </select>
             <label for="date">Data:</label>
             <input type="date" id="date" name="date" required>
+            <!-- Seleção de moeda, caso queira implementar suporte a múltiplas moedas no futuro
             <label for="currency">Moeda:</label>
             <select id="currency" name="currency" required>
                 <option value="BRL">BRL</option>
                 <option value="USD">USD</option>
                 <option value="EUR">EUR</option>
             </select>
+            -->
             <button class="btn" type="submit">Adicionar Despesa</button>
         </form>
     </div>
@@ -57,27 +59,30 @@
             </select>
             <label for="date">Data:</label>
             <input type="date" id="revenue_date" name="date" required>
+            <!-- Seleção de moeda, caso queira implementar suporte a múltiplas moedas no futuro
             <label for="currency">Moeda:</label>
+
             <select id="currency" name="currency" required>
                 <option value="BRL">BRL</option>
                 <option value="USD">USD</option>
                 <option value="EUR">EUR</option>
             </select>
+            -->
             <button class="btn" type="submit">Adicionar Receita</button>
         </form>
 <hr> <!-- linha separadora -->        
             <!-- Seção para exibir o valor geral da carteira -->
     <div class="section">
         <h2>Valor Geral da Carteira</h2>
-        <p><strong>Receita Total:</strong> R$ {{ total_revenue }}</p>
-        <p><strong>Total de Despesas:</strong> R$ {{ total_expense }}</p>
-            <!-- Seção para saldo -->
+        <p><strong>Receita Total:</strong> {{ total_revenue|brl }}</p>
+        <p><strong>Total de Despesas:</strong> {{ total_expense|brl }}</p>
         <p>
             <strong>Saldo:</strong> 
             <span class="{% if balance < 0 %}negative{% elif balance > 0 %}positive{% endif %}">
-                {{ balance }}
+                {{ balance|brl }}
             </span>
         </p>
+
 
     </div>
     
@@ -111,8 +116,5 @@
     var labels = JSON.parse('{{ labels_json|safe }}');
     var data = JSON.parse('{{ data_json|safe }}');
 </script>
-
-<!-- Script para o Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 {% endblock %}

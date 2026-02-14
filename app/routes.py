@@ -5,6 +5,9 @@ import json
 from datetime import datetime
 from .models import User, Account, TransactionType, Expense, Revenue, SavingGoal
 
+# Import correto do utilitário
+from app.utils import price_format
+
 main = Blueprint('main', __name__)
 
 # -------------------------------
