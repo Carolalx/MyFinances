@@ -31,8 +31,8 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ goal.goal_name }}</h5>
                     <p class="mb-1"><strong>Data:</strong> {{ goal.target_date.strftime('%d/%m/%Y') }}</p>
-                    <p class="mb-1"><strong>Valor Alvo:</strong> R$ {{ price_format(goal.target_amount) }}</p>
-                    <p class="mb-2"><strong>Falta:</strong> R$ {{ price_format(goal.target_amount - goal.current_amount) }}</p>
+                    <p class="mb-1"><strong>Valor Alvo:</strong> R$ {{ goal.target_amount | brl }}</p>
+                    <p class="mb-2"><strong>Falta:</strong> R$ {{ (goal.target_amount - goal.current_amount) | brl }}</p>
 
                     {% set percent = (goal.current_amount / goal.target_amount) * 100 %}
                     <div class="progress mb-3">
