@@ -40,7 +40,7 @@
 
 ![Tour Inicial](app/static/img/tourPrincipal.png)
 
-![Simulador de Investimentos](app/static/img/simuladorInvestimentos.png)
+![Simulador de Investimentos](app/static/img/simulacaoInvest.png)
 
 ---
 
