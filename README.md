@@ -16,10 +16,9 @@
 - ✅ Gerenciamento de despesas, receitas e categorias
 - ✅ Visualização de gráficos de receitas e despesas (Charts.js)
 - ✅ Histórico detalhado de transações
-- ✅ Múltiplas contas e moedas
+- ✅ Simulador de Investimentos e cadastramentos de metas
 - ✅ Modo escuro
 - ✅ Calendário financeiro
-- 🔮 Planejado: dashboard, alertas, metas de economia, backup
 
 ---
 
@@ -31,11 +30,18 @@
 
 ---
 
+## 🖼 Banco de Dados
+
+![Diagrama](app/static/img/diagram.png)
+
+---
+
 ## 🖼 Demonstração
 
-![Interface do App]
+![Tour Inicial](app/static/img/tourPrincipal.png)
 
-![Diagrama do Banco de Dados](.img/diagram.png)
+![Simulador de Investimentos](app/static/img/simuladorInvestimentos.png)
+
 ---
 
 ## 📂 Estrutura do Projeto
@@ -57,30 +63,6 @@ Meu_Financeiro/
 ├─ requirements
 └─ README.md 
 ```
-
-
-
----
-
-## 📝 Como Contribuir
-
-1. Faça um fork do repositório  
-2. Crie sua branch de feature (`git checkout -b feature/NovaFuncionalidade`)  
-3. Commit suas alterações (`git commit -m "Adiciona nova funcionalidade"`)  
-4. Push para a branch (`git push origin feature/NovaFuncionalidade`)  
-5. Abra um Pull Request  
-
----
-
-## 🔮 Próximas Atualizações
-
-- Remodelagem do banco de dados
-- Dashboard mais intuitiva
-- reCAPTCHA no login
-- Notificações e alertas
-- Relatórios personalizados
-- Meta de economia e simulação de investimentos
-- Backup e recuperação
 
 ---
 
