@@ -32,6 +32,10 @@ form.addEventListener('submit', function (e) {
         aporteAtual *= (1 + contribution_tax);
     }
 
+    let valorInvestido = totalAportes;
+    document.getElementById('valorInvestido').textContent =
+        valorInvestido.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
     const totalJuros = montanteFinal - totalAportes;
 
     // Exibe resultados formatados em BRL
@@ -46,6 +50,7 @@ form.addEventListener('submit', function (e) {
         rendaMensal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
     resultadoArea.style.display = 'block';
+
 
     // Arrays para armazenar evolução ano a ano para o gráfico
     let anos = [];
@@ -123,11 +128,11 @@ form.addEventListener('submit', function (e) {
             // Cria linha da tabela
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td>${mesNumero}</td>
-                <td>${montanteMesAtual.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
-                <td>${aporteMesAtual.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
-                <td>${rendaMensalMes.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
-            `;
+                    <td>${mesNumero}</td>
+                    <td>${montanteMesAtual.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                    <td>${aporteMesAtual.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                    <td>${rendaMensalMes.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                `;
             tabelaBody.appendChild(tr);
 
             mesNumero++;

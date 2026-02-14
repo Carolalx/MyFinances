@@ -1,9 +1,9 @@
-from flask import Blueprint, request, render_template, redirect, url_for, flash, jsonify, session
+from flask import Blueprint, app, request, render_template, redirect, url_for, flash, jsonify, session
 from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
 import json
 from datetime import datetime
-from .models import User, Account, TransactionType, Expense, Revenue
+from .models import User, Account, TransactionType, Expense, Revenue, SavingGoal
 
 main = Blueprint('main', __name__)
 
@@ -481,8 +481,6 @@ def transaction_history():
 
     return render_template('transaction_history.html', expenses=expense_data, revenues=revenue_data)
 
-# TODO implementar página de simulação de investimentos
-
 
 @main.route('/simulador_invest')
 def simulador_invest():
@@ -491,24 +489,69 @@ def simulador_invest():
         return redirect(url_for('main.login'))
     return render_template('simulador_invest.html')
 
+# 👇 CADASTRO DE METAS
 
-@main.route('/saving_goal', methods=['POST'])
+
+@main.route('/saving_goal', methods=['GET', 'POST'])
 def saving_goal():
-    from .models import SavingGoal
-    if 'user_id' not in session:
-        flash('Por favor, faça login para adicionar uma meta de economia.', 'warning')
+    user_id = session.get('user_id')
+    if not user_id:
         return redirect(url_for('main.login'))
 
-    user_id = session['user_id']
-    goal_name = request.form.get('goal_name')
-    target_amount = request.form.get('target_amount')
-    target_date = request.form.get('target_date')
+    if request.method == 'POST':
+        goal = SavingGoal(
+            user_id=user_id,
+            goal_name=request.form['goal_name'],
+            target_amount=float(request.form['target_amount']),
+            current_amount=0.0,
+            target_date=datetime.strptime(
+                request.form['target_date'], '%Y-%m-%d')
+        )
+        db.session.add(goal)
+        db.session.commit()
+        return redirect(url_for('main.saving_goal'))
 
-    new_goal = SavingGoal(goal_name=goal_name, user_id=user_id, target_amount=target_amount,
-                          target_date=datetime.strptime(target_date, '%Y-%m-%d'))
-    db.session.add(new_goal)
+    # Buscar metas: ativas primeiro, concluídas por último
+    goals = SavingGoal.query.filter_by(user_id=user_id)\
+        .order_by(SavingGoal.completed.asc(), SavingGoal.target_date.asc())\
+        .all()
+
+    return render_template('saving_goal.html', goals=goals)
+
+
+# Adicionar valor à meta
+@main.route('/saving_goal/add/<int:goal_id>', methods=['POST'])
+def add_to_goal(goal_id):
+    user_id = session.get('user_id')
+    goal = SavingGoal.query.filter_by(
+        id=goal_id, user_id=user_id).first_or_404()
+    value = float(request.form['amount'])
+    goal.current_amount += value
     db.session.commit()
-    return redirect(url_for('main.dashboard'))
+    return redirect(url_for('main.saving_goal'))
+
+
+# Marcar meta como concluída
+@main.route('/saving_goal/complete/<int:goal_id>', methods=['POST'])
+def complete_goal(goal_id):
+    user_id = session.get('user_id')
+    goal = SavingGoal.query.filter_by(
+        id=goal_id, user_id=user_id).first_or_404()
+    goal.completed = True
+    db.session.commit()
+    return redirect(url_for('main.saving_goal'))
+
+# Excluir meta
+
+
+@main.route('/saving_goal/delete/<int:goal_id>', methods=['POST'])
+def delete_goal(goal_id):
+    user_id = session.get('user_id')
+    goal = SavingGoal.query.filter_by(
+        id=goal_id, user_id=user_id).first_or_404()
+    db.session.delete(goal)
+    db.session.commit()
+    return redirect(url_for('main.saving_goal'))
 
 
 @main.route('/calendar')
@@ -521,30 +564,48 @@ def calendar():
 
 @main.route('/api/events')
 def api_events():
-    from .models import Expense, Revenue, Account
     user_id = session.get('user_id')
     if not user_id:
         return jsonify([])
 
-    expenses = Expense.query.join(Account).filter(
-        Account.user_id == user_id).all()
-    revenues = Revenue.query.join(Account).filter(
-        Account.user_id == user_id).all()
-
     events = []
 
-    for expense in expenses:
+    # despesas
+    for expense in Expense.query.join(Account).filter(Account.user_id == user_id).all():
         events.append({
             'title': f"R$ {expense.amount} ({expense.description[:10]}...)",
             'start': expense.expense_date.strftime('%Y-%m-%d'),
             'color': 'red'
         })
 
-    for revenue in revenues:
+    # receitas
+    for revenue in Revenue.query.join(Account).filter(Account.user_id == user_id).all():
         events.append({
             'title': f"R$ {revenue.amount} ({revenue.description[:10]}...)",
             'start': revenue.revenue_date.strftime('%Y-%m-%d'),
             'color': 'green'
+        })
+
+    # metas de economia
+    for goal in SavingGoal.query.filter_by(user_id=user_id).all():
+        events.append({
+            'title': f"{goal.goal_name} ({goal.current_amount:.2f}/{goal.target_amount:.2f})",
+            'start': goal.target_date.strftime('%Y-%m-%d'),
+            'color': 'blue'  # cor diferente para metas
+        })
+
+    return jsonify(events)
+
+
+def get_events():
+    goals = SavingGoal.query.all()
+    events = []
+
+    for goal in goals:
+        events.append({
+            'title': goal.goal_name,
+            'start': goal.target_date.isoformat(),  # FullCalendar aceita ISO
+            'allDay': True,
         })
 
     return jsonify(events)

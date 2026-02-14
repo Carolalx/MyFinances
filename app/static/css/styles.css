@@ -232,8 +232,12 @@ h2 {
 }
 
 .positive {
-    color: blue;
+    color: #4caf50;
     font-weight: bold;
+}
+
+hr {
+    color: #4caf50;
 }
 
 
@@ -327,16 +331,20 @@ button:hover {
 
 .chart-container {
     display: flex;
+    flex-direction: column;
+    /* mobile: labels abaixo ou acima */
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-    margin-top: 30px;
+    margin-top: 1px;
+    gap: 20px;
 }
 
 .chart-wrapper {
-    display: flex;
-    align-items: flex-start;
-    gap: 50px;
+    width: 90%;
+    max-width: 400px;
+    /* limite para mobile */
+    height: auto;
+    /* Chart.js vai controlar altura */
 }
 
 .chart-labels {
@@ -346,14 +354,37 @@ button:hover {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    font-size: 1rem;
 }
 
-.chart-labels .label-group {
-    display: flex;
-    gap: 15px;
+/* Desktop / tablets */
+@media (min-width: 768px) {
+    .chart-container {
+        flex-direction: row;
+        /* gráfico e labels lado a lado */
+        gap: 50px;
+        margin-top: 10px;
+    }
+
+    .chart-wrapper {
+        width: 50%;
+        max-width: 600px;
+        height: 500px;
+        /* altura maior só no desktop */
+    }
+
+    .chart-labels {
+        flex-direction: column;
+        justify-content: center;
+        height: 500px;
+        /* igual à altura do gráfico */
+        font-size: 1.8rem;
+        gap: 20px;
+    }
 }
 
-#graficoInvestimento {
+
+*/ #graficoInvestimento {
     width: 100% !important;
     height: auto !important;
 }

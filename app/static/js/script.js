@@ -1,23 +1,14 @@
-// Configuração do gráfico chart
-// Seleciona o elemento do gráfico com o id 'expenseRevenueChart'
 const chartElement = document.getElementById('expenseRevenueChart');
 
-// Verifica se o elemento do gráfico está presente na página
 if (chartElement) {
-    // Obtém o contexto 2D do elemento do gráfico
     const ctx = chartElement.getContext('2d');
 
-    // Cria um novo gráfico do tipo rosca com os dados
     const expenseRevenueChart = new Chart(ctx, {
-        // Tipo de gráfico: rosca
         type: 'doughnut',
         data: {
             labels: labels,
-            // Conjunto de dados para o gráfico
             datasets: [{
-                // Dados para o gráfico
                 data: data,
-                // Cores de fundo para os segmentos
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
@@ -26,7 +17,6 @@ if (chartElement) {
                     'rgba(153, 102, 255, 0.2)',
                     'rgba(255, 159, 64, 0.2)'
                 ],
-                // Cores de borda para os segmentos
                 borderColor: [
                     'rgba(255, 99, 132, 1)',
                     'rgba(54, 162, 235, 1)',
@@ -35,40 +25,60 @@ if (chartElement) {
                     'rgba(153, 102, 255, 1)',
                     'rgba(255, 159, 64, 1)'
                 ],
-                // Largura da borda dos segmentos
                 borderWidth: 1
             }]
         },
-        // Opções de configuração do gráfico
         options: {
-            // Responsividade do gráfico, plugins, legendas
             responsive: true,
+            maintainAspectRatio: false,
+            layout: {
+                padding: {
+                    top: window.innerWidth < 768 ? 5 : 5, // espaço entre topo do canvas e gráfico
+                    bottom: 20
+                }
+            },
             plugins: {
                 legend: {
                     position: 'right',
+                    labels: {
+                        color: document.body.classList.contains('dark-mode') ? '#333' : '#fff',
+                        font: {
+                            size: window.innerWidth >= 768 ? 14 : 12
+                        }
+                    }
                 },
-                // Configuração do título
                 title: {
                     display: true,
-                    text: 'Proporção de Receitas e Tipos de Despesas'
+                    text: 'Proporção de Receitas e Tipos de Despesas',
+                    font: {
+                        size: window.innerWidth < 768 ? 12 : 20,
+                        weight: 'bold'
+                    },
+                    padding: {
+                        bottom: window.innerWidth < 768 ? 15 : 30 // distância entre título e gráfico
+                    },
+                    color: document.body.classList.contains('dark-mode') ? '#333' : '#fff',
                 },
-                // Configuração de tooltip para mostrar porcentagens e valores
                 tooltip: {
                     callbacks: {
                         label: function (tooltipItem) {
                             const total = data.reduce((acc, value) => acc + value, 0);
                             const value = tooltipItem.raw;
                             const percentage = ((value / total) * 100).toFixed(2);
-                            return `${tooltipItem.label}: R$${value} (${percentage}%)`;
+                            // Exemplo de if/else se quiser diferenciar tooltips
+                            if (tooltipItem.label === "REVENUE_S") {
+                                return `💰 : R$${value} (${percentage}%)`;
+                            } else {
+                                return `📉 : R$${value} (${percentage}%)`;
+                            }
                         }
                     }
                 }
-            }
+            },
+            cutout: '40%' // tamanho do Doughnut
         }
     });
 }
-
-
 
 // Configuração modo escuro
 // Evento de carregamento de página para configurar o modo escuro
@@ -118,6 +128,25 @@ document.addEventListener('DOMContentLoaded', function () {
     // Adiciona o evento de clique ao botão de alternância do modo escuro
     toggleButton.addEventListener('click', toggleDarkMode);
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    var calendarEl = document.getElementById('calendar');
+
+    if (calendarEl) {
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            events: '/api/events',  // rota que criamos
+            height: 'auto',
+            contentHeight: 'auto',
+            eventDidMount: function (info) {
+                // opcional: tooltip mostrando valor alvo e atual
+                info.el.setAttribute('title', info.event.title);
+            }
+        });
+        calendar.render();
+    }
+});
+
 
 document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');

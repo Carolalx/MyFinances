@@ -3,6 +3,11 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from .config import Config
+from flask_migrate import Migrate
+
+
+migrate = Migrate()
+
 
 # Instancia SQLAlchemy normalmente
 db = SQLAlchemy()
@@ -12,6 +17,7 @@ def create_app():
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(Config)
     db.init_app(app)
+    migrate.init_app(app, db)
 
     # Registra filtro de template
     from .utils import format_brl

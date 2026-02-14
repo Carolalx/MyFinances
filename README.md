@@ -33,9 +33,9 @@
 
 ## 🖼 Demonstração
 
-![Interface do App](https://via.placeholder.com/600x300?text=Meu+Financeiro+Demo)
-> Imagem temporária; substitua por GIF ou screenshot real do app.
+![Interface do App]
 
+![Diagrama do Banco de Dados](.img/db_diagram.png)
 ---
 
 ## 📂 Estrutura do Projeto
