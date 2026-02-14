@@ -184,10 +184,56 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 document.addEventListener('DOMContentLoaded', function () {
+
+    // Verifica se está na página do Dashboard
+    const isDashboard = window.location.pathname.includes("/dashboard");
+
+    if (isDashboard) {
+        // Criação do botão
+        const botaoTour = document.createElement("button");
+        botaoTour.innerText = "▶️ Fazer Tour";
+        botaoTour.id = "btnTour";
+
+        document.body.appendChild(botaoTour);
+
+        // Estilo do botão
+        botaoTour.addEventListener("click", function () {
+            startTour();
+        });
+
+        // Estilo do botão
+        const style = document.createElement('style');
+        style.innerHTML = `
+            #btnTour {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                padding: 6px 12px;
+                border-radius: 18px;
+                font-size: 12px;
+                cursor: pointer;
+                width: auto !important;
+                display: inline-block !important;
+                max-width: max-content;
+                box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+                z-index: 9999;
+                transition: all 0.2s ease;
+                white-space: nowrap;
+            }
+
+            #btnTour:hover {
+                transform: scale(1.05);
+                background-color: #43a047;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
     function startTour() {
-
         const tour = introJs();
-
         tour.setOptions({
             nextLabel: 'Próximo',
             prevLabel: 'Voltar',
@@ -200,68 +246,23 @@ document.addEventListener('DOMContentLoaded', function () {
             disableInteraction: false,
             showBullets: false,
             steps: [
-
-                {
-                    title: "👋 Bem-vindo ao MyFinances",
-                    intro: "Vou te mostrar rapidinho como organizar sua vida financeira de forma simples e inteligente."
-                },
-
-                {
-                    element: document.querySelector('#nav-dashboard'),
-                    title: "📊 Dashboard",
-                    intro: "Aqui você acompanha sua visão geral financeira."
-                },
-
-                {
-                    element: document.querySelector('#expense-section'),
-                    title: "💸 Cadastro de Despesas",
-                    intro: "Registre aqui TODOS os seus gastos. Até o cafézinho hein! Caso não exista o tipo de despesa que deseja, cadastre em Tipos de Transações."
-                },
-
-                {
-                    element: document.querySelector('#revenue-section'),
-                    title: "💰 Cadastro de Receitas",
-                    intro: "Adicione suas entradas de dinheiro. Caso não exista o tipo de receita que deseja, cadastre em Tipos de Transações."
-                },
-
-                {
-                    element: document.querySelector('#wallet-section'),
-                    title: "📈 Resumo Financeiro",
-                    intro: "Veja seu saldo total e acompanhe sua evolução. Simule corte nos gasto clicando no tipo de despesa na legenda."
-                },
-
-                {
-                    element: document.querySelector('#chart-section'),
-                    title: "📊 Visualização Gráfica",
-                    intro: "Analise seus dados com gráficos interativos."
-                },
-
-                {
-                    element: document.querySelector('#nav-logout'),
-                    title: "🚪 Encerrar Sessão",
-                    intro: "Passeie, Simule, Apague e refaça quantas vezes quiser. Veja onde seu dinheiro está indo e tome decisões. Boa jornada!"
-                }
-
+                { title: "👋 Bem-vindo ao MyFinances", intro: "Vou te mostrar rapidinho como organizar sua vida financeira de forma simples e inteligente." },
+                { element: document.querySelector('#nav-dashboard'), title: "📊 Dashboard", intro: "Aqui você acompanha sua visão geral financeira." },
+                { element: document.querySelector('#expense-section'), title: "💸 Cadastro de Despesas", intro: "Registre aqui TODOS os seus gastos." },
+                { element: document.querySelector('#revenue-section'), title: "💰 Cadastro de Receitas", intro: "Adicione suas entradas de dinheiro." },
+                { element: document.querySelector('#wallet-section'), title: "📈 Resumo Financeiro", intro: "Veja seu saldo total e acompanhe sua evolução." },
+                { element: document.querySelector('#chart-section'), title: "📊 Visualização Gráfica", intro: "Analise seus dados com gráficos interativos." },
+                { element: document.querySelector('#nav-logout'), title: "🚪 Encerrar Sessão", intro: "Passeie, simule e tome decisões mais inteligentes!" }
             ]
         });
 
-        // Scroll suave manual (fica muito mais elegante)
-        tour.onbeforechange(function(targetElement) {
+        tour.onbeforechange(function (targetElement) {
             if (targetElement) {
-                targetElement.scrollIntoView({
-                    behavior: "smooth",
-                    block: "center"
-                });
+                targetElement.scrollIntoView({ behavior: "smooth", block: "center" });
             }
         });
 
         tour.start();
     }
 
-    // MODO TESTE — sempre inicia
-    window.addEventListener("load", function() {
-        setTimeout(() => {
-            startTour();
-        }, 500);
-    });
 });

@@ -37,7 +37,7 @@
                 <td>{{ expense_type.id }}</td>
                 <td>{{ expense_type.name }}</td>
                 <td>
-                    <a href="{{ url_for('main.delete_expense_type', id=expense_type.id) }}">Excluir</a>
+                    <a href="{{ url_for('main.delete_expense_type', id=expense_type.id) }}">🗑</a>
                 </td>
             </tr>
             {% endfor %}
@@ -59,7 +59,7 @@
                 <td>{{ revenue_type.name }}</td>
                 <td>
                     <!-- Ação para excluir tipo de receita -->
-                    <a href="{{ url_for('main.delete_revenue_type', id=revenue_type.id) }}">Excluir</a>
+                    <a href="{{ url_for('main.delete_revenue_type', id=revenue_type.id) }}">🗑</a>
                 </td>
             </tr>
             {% endfor %}

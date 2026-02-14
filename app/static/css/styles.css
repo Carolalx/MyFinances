@@ -341,7 +341,6 @@ button:hover {
 .chart-container {
     display: flex;
     flex-direction: column;
-    /* mobile: labels abaixo ou acima */
     justify-content: center;
     align-items: center;
     margin-top: 1px;
@@ -350,10 +349,13 @@ button:hover {
 
 .chart-wrapper {
     width: 90%;
+    /* Limite padrão para outros gráficos */
     max-width: 400px;
-    /* limite para mobile */
+    /* Limite para dispositivos móveis */
     height: auto;
-    /* Chart.js vai controlar altura */
+    /* Altura controlada pelo Chart.js */
+    display: block;
+    /* Garante que o gráfico não seja afetado por flexbox */
 }
 
 .chart-labels {
@@ -364,6 +366,15 @@ button:hover {
     flex-direction: column;
     gap: 10px;
     font-size: 1rem;
+}
+
+#graficoInvestimento {
+    width: 100% !important;
+    /* Força o gráfico de investimento a ocupar toda a largura */
+    max-width: none !important;
+    /* Remove qualquer limitação de largura máxima */
+    height: auto !important;
+    /* Ajusta a altura automaticamente */
 }
 
 /* Desktop / tablets */
@@ -378,31 +389,48 @@ button:hover {
     }
 
     .chart-wrapper {
-        width: 60%;
-        /* dá mais espaço pro gráfico */
-        max-width: 600px;
+        width: 100% !important;
+        /* Força a largura do gráfico para 100% */
+        max-width: none !important;
+        /* Remove qualquer limitação de largura máxima */
         height: 500px;
+        /* Ajuste da altura do gráfico */
     }
 
     .chart-labels {
         flex-direction: column;
         justify-content: flex-start;
-        /* começa do topo, mais próximo do gráfico */
+        /* Começa do topo, mais próximo do gráfico */
         height: auto;
-        /* deixa a altura automática */
+        /* Deixa a altura automática */
         font-size: 1.5rem;
-        /* diminui um pouco para caber melhor */
+        /* Ajusta o tamanho da fonte para melhor visualização */
         gap: 10px;
-        /* espaçamento menor entre labels */
+        /* Menor espaçamento entre os labels */
+    }
+
+    /* Garantir que o gráfico de investimento ocupe toda a largura disponível */
+    #graficoInvestimento {
+        width: 100% !important;
+        /* Garante que o gráfico ocupe 100% da largura */
     }
 }
 
-/* Mobile */
+/* Responsividade para dispositivos móveis */
 @media (max-width: 768px) {
+    #graficoInvestimento {
+        width: 100% !important;
+        /* 100% de largura em dispositivos móveis */
+        max-width: none !important;
+        /* Remove qualquer limitação de largura máxima */
+    }
+
     .chart-wrapper {
         height: 300px;
+        /* Ajuste de altura para telas menores */
     }
 }
+
 
 
 
@@ -654,4 +682,37 @@ footer {
     box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.5),
         0 10px 30px rgba(0, 0, 0, 0.4) !important;
     transition: all 0.4s ease-in-out !important;
+}
+
+#btnTour {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+
+    background-color: #4CAF50;
+    color: white;
+
+    border: none;
+    padding: 6px 12px;
+    border-radius: 18px;
+
+    font-size: 12px;
+    cursor: pointer;
+
+    width: auto !important;
+    /* força não ocupar 100% */
+    display: inline-block !important;
+    /* impede virar block */
+    max-width: max-content;
+    /* garante largura só do conteúdo */
+
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+#btnTour:hover {
+    transform: scale(1.05);
+    background-color: #43a047;
 }
