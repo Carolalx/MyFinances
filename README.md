@@ -35,7 +35,7 @@
 
 ![Interface do App]
 
-![Diagrama do Banco de Dados](.img/db_diagram.png)
+![Diagrama do Banco de Dados](.img/diagram.png)
 ---
 
 ## 📂 Estrutura do Projeto
