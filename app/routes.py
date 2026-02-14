@@ -300,7 +300,7 @@ def add_expense():
     db.session.add(expense)
     db.session.commit()
 
-    flash('Despesa adicionada com sucesso!', 'success')
+    flash('Despesa adicionada com sucesso! Consulte em Transações.', 'success')
     return redirect(url_for('main.dashboard'))
 
 
@@ -348,7 +348,7 @@ def add_revenue():
 
     db.session.add(new_rev)
     db.session.commit()
-    flash('Receita adicionada com sucesso!', 'success')
+    flash('Receita adicionada com sucesso! Consulte em Transações.', 'success')
     return redirect(url_for('main.dashboard'))
 
 
