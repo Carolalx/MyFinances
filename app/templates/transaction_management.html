@@ -28,13 +28,11 @@
         <h2>Tipos de Despesas</h2>
         <table>
             <tr>
-                <th>ID</th>
                 <th>Nome</th>
                 <th>Ações</th>
             </tr>
             {% for expense_type in expense_types %}
             <tr>
-                <td>{{ expense_type.id }}</td>
                 <td>{{ expense_type.name }}</td>
                 <td>
                     <a href="{{ url_for('main.delete_expense_type', id=expense_type.id) }}">🗑</a>
