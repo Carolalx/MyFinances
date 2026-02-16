@@ -47,13 +47,11 @@
         <h2>Tipos de Receitas</h2>
         <table>
             <tr>
-                <th>ID</th>
                 <th>Nome</th>
                 <th>Ações</th>
             </tr>
             {% for revenue_type in revenue_types %}
             <tr>
-                <td>{{ revenue_type.id }}</td>
                 <td>{{ revenue_type.name }}</td>
                 <td>
                     <!-- Ação para excluir tipo de receita -->
