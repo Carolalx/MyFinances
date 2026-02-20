@@ -1,85 +1,101 @@
-// Simulador de Juros Compostos
+// ===============================
+// SIMULADOR PROFISSIONAL OTIMIZADO
+// ===============================
+
 const form = document.getElementById('simuladorForm');
 const resultadoArea = document.getElementById('resultadoArea');
-let meuGrafico = null; // inicializa variável global do gráfico
+let meuGrafico = null;
 
 form.addEventListener('submit', function (e) {
     e.preventDefault();
 
     const starting_capital = parseFloat(document.getElementById('starting_capital').value) || 0;
     const contribution = parseFloat(document.getElementById('contribution').value) || 0;
-    const contribution_tax = parseFloat(document.getElementById('contribution_tax').value) / 100 || 0;
-    const annual_tax = parseFloat(document.getElementById('taxaJuros').value) / 100 || 0;
-    const target_time = parseFloat(document.getElementById('periodo').value);
+    const contribution_tax = (parseFloat(document.getElementById('contribution_tax').value) || 0) / 100;
+    const annual_tax = (parseFloat(document.getElementById('taxaJuros').value) || 0) / 100;
+    const years = parseInt(document.getElementById('periodo').value);
 
-    if (target_time <= 0) {
+    if (years <= 0) {
         alert('Período deve ser maior que zero');
         return;
     }
 
-    // --- Cálculo do montante final ---
-    let montanteFinal = starting_capital;
-    let totalAportes = starting_capital;
-    let aporteAtual = contribution;
+    const monthly_tax = Math.pow(1 + annual_tax, 1 / 12) - 1;
+    const totalMonths = years * 12;
 
-    for (let i = 1; i <= target_time; i++) {
-        for (let m = 1; m <= 12; m++) {
-            montanteFinal += aporteAtual;
-            totalAportes += aporteAtual;
+    let montante = starting_capital;
+    let aporteAtual = contribution;
+    let totalAportes = starting_capital;
+
+    let dadosMensais = [];
+    let dadosAnuais = [];
+
+    for (let mes = 1; mes <= totalMonths; mes++) {
+
+        // aplica juros
+        montante *= (1 + monthly_tax);
+
+        // adiciona aporte
+        montante += aporteAtual;
+        totalAportes += aporteAtual;
+
+        // salva dados mensais
+        dadosMensais.push({
+            mes: mes,
+            montante: montante,
+            aporte: aporteAtual,
+            rendimento: montante * monthly_tax
+        });
+
+        // reajusta aporte a cada 12 meses
+        if (mes % 12 === 0) {
+            dadosAnuais.push({
+                ano: mes / 12,
+                montante: montante
+            });
+
+            aporteAtual *= (1 + contribution_tax);
         }
-        montanteFinal *= (1 + annual_tax);
-        aporteAtual *= (1 + contribution_tax);
     }
 
-    // --- Exibir resultados gerais ---
+    const totalJuros = montante - totalAportes;
+    const rendaMensal = montante * monthly_tax;
+
+    // ===============================
+    // RESULTADOS
+    // ===============================
+
     document.getElementById('valorInvestido').textContent =
         totalAportes.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
-    const totalJuros = montanteFinal - totalAportes;
-
     document.getElementById('montanteFinal').textContent =
-        montanteFinal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        montante.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
     document.getElementById('totalJuros').textContent =
         totalJuros.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
-    const rendaMensal = montanteFinal * 0.01; // 1% mensal
     document.getElementById('rendaMensal').textContent =
         rendaMensal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
     resultadoArea.style.display = 'block';
 
-    // --- Arrays para evolução anual ---
-    let anos = [];
-    let montantes = [];
-    let montanteAno = starting_capital;
-    let aporteAno = contribution;
+    // ===============================
+    // GRÁFICO (usa dadosAnuais)
+    // ===============================
 
-    for (let i = 1; i <= target_time; i++) {
-        for (let m = 1; m <= 12; m++) {
-            montanteAno += aporteAno;
-        }
-        montanteAno *= (1 + annual_tax);
-        aporteAno *= (1 + contribution_tax);
-
-        anos.push(i);
-        montantes.push(montanteAno.toFixed(2));
-    }
-
-    // --- Configurar gráfico responsivo ---
-    const graficoInvestimentoCtx = document.getElementById('graficoInvestimento').getContext('2d');
+    const ctx = document.getElementById('graficoInvestimento').getContext('2d');
 
     if (meuGrafico) {
         meuGrafico.destroy();
     }
 
-    meuGrafico = new Chart(graficoInvestimentoCtx, {
+    meuGrafico = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: anos,
+            labels: dadosAnuais.map(d => d.ano),
             datasets: [{
                 label: 'Montante ao longo do tempo (R$)',
-                data: montantes,
+                data: dadosAnuais.map(d => d.montante),
                 fill: true,
                 borderColor: '#4fa3f7',
                 backgroundColor: 'rgba(79,163,247,0.2)',
@@ -87,13 +103,16 @@ form.addEventListener('submit', function (e) {
             }]
         },
         options: {
-            responsive: true,           // deixa o gráfico responsivo
-            maintainAspectRatio: false, // altura se ajusta ao container
+            responsive: true,
+            maintainAspectRatio: false,
             scales: {
                 y: {
                     ticks: {
                         callback: function (value) {
-                            return Number(value).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                            return Number(value).toLocaleString('pt-BR', {
+                                style: 'currency',
+                                currency: 'BRL'
+                            });
                         }
                     }
                 },
@@ -110,31 +129,23 @@ form.addEventListener('submit', function (e) {
         }
     });
 
-    // --- Preencher tabela mês a mês ---
+    // ===============================
+    // TABELA MENSAL (usa dadosMensais)
+    // ===============================
+
     const tabelaBody = document.querySelector('#tabelaEvolucao tbody');
-    tabelaBody.innerHTML = ''; // limpa tabela antiga
+    tabelaBody.innerHTML = '';
 
-    let aporteMesAtual = contribution;
-    let montanteMesAtual = starting_capital;
-    let mesNumero = 1;
+    dadosMensais.forEach(d => {
+        const tr = document.createElement('tr');
 
-    for (let i = 1; i <= target_time; i++) {
-        for (let m = 1; m <= 12; m++) {
-            montanteMesAtual += aporteMesAtual;
-            const rendaMensalMes = montanteMesAtual * 0.01;
+        tr.innerHTML = `
+            <td>${d.mes}</td>
+            <td>${d.montante.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+            <td>${d.aporte.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+            <td>${d.rendimento.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+        `;
 
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${mesNumero}</td>
-                <td>${montanteMesAtual.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
-                <td>${aporteMesAtual.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
-                <td>${rendaMensalMes.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
-            `;
-            tabelaBody.appendChild(tr);
-            mesNumero++;
-        }
-
-        montanteMesAtual *= (1 + annual_tax);
-        aporteMesAtual *= (1 + contribution_tax);
-    }
+        tabelaBody.appendChild(tr);
+    });
 });
